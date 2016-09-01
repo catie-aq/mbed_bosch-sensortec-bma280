@@ -14,22 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef CATIE_6TRON_LIBTEMPLATE_H_
-#define CATIE_6TRON_LIBTEMPLATE_H_
+#ifndef CATIE_SIXTRON_LIBTEMPLATE_H_
+#define CATIE_SIXTRON_LIBTEMPLATE_H_
 
-namespace 6tron
+namespace sixtron
 {
 
 class LibTemplate
 {
 public:
     LibTemplate();
-
-private:
-    DigitalOut &led_;
-
 };
 
 }
 
-#endif // CATIE_6TRON_LIBTEMPLATE_H_
+#endif // CATIE_SIXTRON_LIBTEMPLATE_H_
