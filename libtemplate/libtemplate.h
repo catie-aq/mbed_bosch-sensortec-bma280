@@ -17,8 +17,7 @@
 #ifndef CATIE_SIXTRON_LIBTEMPLATE_H_
 #define CATIE_SIXTRON_LIBTEMPLATE_H_
 
-namespace sixtron
-{
+namespace sixtron {
 
 class LibTemplate
 {
@@ -26,6 +25,6 @@ public:
     LibTemplate();
 };
 
-}
+} // namespace sixtron
 
 #endif // CATIE_SIXTRON_LIBTEMPLATE_H_

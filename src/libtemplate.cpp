@@ -17,6 +17,10 @@
 
 #include "libtemplate/libtemplate.h"
 
+namespace sixtron {
+
 LibTemplate::LibTemplate()
 {
 }
+
+} // namespace sixtron
