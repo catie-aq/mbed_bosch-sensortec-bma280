@@ -117,15 +117,27 @@ public:
 		Range_16g		=(0x0C)
     };
 
+    enum class Bandwidth: char {
+    	Bandwidth_7_81_Hz	= (0x08),
+    	Bandwidth_15_63_Hz	= (0x09),
+    	Bandwidth_31_25_Hz	= (0x0A),
+    	Bandwidth_62_25_Hz	= (0x0B),
+    	Bandwidth_125_Hz	= (0x0C),
+    	Bandwidth_250_Hz	= (0x0D),
+    	Bandwidth_500_Hz	= (0x0E),
+    	Bandwidth_1000_Hz	= (0x0F)
+    };
+
     BMA280(I2C * i2c, I2CAddress address = I2CAddress::Address1, int hz = 400000);
 
-    bool initialize(Range range = Range::Range_2g);
+    bool initialize(Range range = Range::Range_2g, Bandwidth width = Bandwidth::Bandwidth_1000_Hz);
     void set_power_mode(PowerMode mode);
     void set_range(Range range);
+    void set_bandwidth(Bandwidth width);
     void enable_slow_offset_compensation(bool x_axis, bool y_axis, bool z_axis);
-    // TODO configure power mode, sleep duration etc
-    // TODO configure bandwidth range
-    // TODO bool update() when data are ready ?
+    // TODO add a do_a_fast_offset_configuration function
+    // TODO sleep duration for low power modes
+    // TODO configure bandwidth
     // TODO configure interrupt
 
     void read_accel(bma280_accel_t* accel);
@@ -142,6 +154,7 @@ private:
     int i2c_read_register(RegisterAddress registerAddress, char *value);
     int i2c_read_two_bytes_register(RegisterAddress registerAddress, int16_t *value);
     int i2c_read_vector(RegisterAddress registerAddress, int16_t value[3]);
+    void reset();
 
     I2C* _i2c;
     I2CAddress _i2cAddress;

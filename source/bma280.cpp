@@ -26,10 +26,11 @@ BMA280::BMA280(I2C * i2c, I2CAddress address, int hz):
     _i2c->frequency(hz);
 }
 
-bool BMA280::initialize(Range range)
+bool BMA280::initialize(Range range, Bandwidth width)
 {
 	char reg = 0;
 	printf("Initializing BMA280 ... \n");
+	reset();
 	i2c_read_register(RegisterAddress::ChipId, &reg);
 	if (reg != 0XFB) {
 		wait_ms(20); //BMA280 may have not finishing to boot !
@@ -41,7 +42,8 @@ bool BMA280::initialize(Range range)
 	_chipId = reg;
 
 	set_power_mode(PowerMode::PowerMode_NORMAL);
-	//set_range(range);
+	set_range(range);
+	set_bandwidth(width);
 
 	return true;
 }
@@ -171,10 +173,21 @@ void BMA280::set_range(Range range)
 	i2c_set_register(RegisterAddress::RangeSelect, data);
 }
 
+void BMA280::set_bandwidth(Bandwidth width)
+{
+	char data = static_cast<char>(width);
+	i2c_set_register(RegisterAddress::BwSelect, data);
+}
+
 void BMA280::enable_slow_offset_compensation(bool x_axis, bool y_axis, bool z_axis)
 {
 	char data = ((z_axis & 0x01) << 2) | ((y_axis & 0x01) << 1) | (x_axis & 0x01);
 	i2c_set_register(RegisterAddress::OffsetCtrl, data);
+}
+void BMA280::reset()
+{
+	i2c_set_register(RegisterAddress::Rst, 0xB6);
+	wait_ms(5);
 }
 
 /** Set register value
