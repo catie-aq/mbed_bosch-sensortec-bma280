@@ -136,8 +136,7 @@ public:
     void set_bandwidth(Bandwidth width);
     void enable_slow_offset_compensation(bool x_axis, bool y_axis, bool z_axis);
     // TODO add a do_a_fast_offset_configuration function
-    // TODO sleep duration for low power modes
-    // TODO configure bandwidth
+    // TODO configure sleep duration for low power modes
     // TODO configure interrupt
 
     void read_accel(bma280_accel_t* accel);
