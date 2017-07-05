@@ -47,9 +47,33 @@ void BMA280::read_accel(bma280_accel_t* accel)
 	static int16_t acc[3];
 	i2c_read_vector(RegisterAddress::X_Axis_Lsb, acc);
 
-	accel->x = static_cast<double>((acc[0] >> 2)/100.0); //The 2 first bits are not data
-	accel->y = static_cast<double>((acc[1] >> 2)/100.0); //The 2 first bits are not data
-	accel->z = static_cast<double>((acc[2] >> 2)/100.0); //The 2 first bits are not data
+	double to_meters_per_seconds = 0;
+	switch(_range) {
+	case Range::Range_2g:
+		to_meters_per_seconds = 0.244*9.80665/1000;
+		accel->x = static_cast<double>(acc[0] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
+		accel->y = static_cast<double>(acc[1] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
+		accel->z = static_cast<double>(acc[2] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
+		break;
+	case Range::Range_4g:
+		to_meters_per_seconds = 0.244*9.80665/1000;
+		accel->x = static_cast<double>(acc[0] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
+		accel->y = static_cast<double>(acc[1] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
+		accel->z = static_cast<double>(acc[2] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
+		break;
+	case Range::Range_8g:
+		to_meters_per_seconds = 0.244*9.80665/1000;
+		accel->x = static_cast<double>(acc[0] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
+		accel->y = static_cast<double>(acc[1] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
+		accel->z = static_cast<double>(acc[2] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
+		break;
+	case Range::Range_16g:
+		to_meters_per_seconds = 0.244*9.80665/1000;
+		accel->x = static_cast<double>(acc[0] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
+		accel->y = static_cast<double>(acc[1] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
+		accel->z = static_cast<double>(acc[2] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
+	break;
+	}
 }
 
 void BMA280::set_power_mode(PowerMode mode)
