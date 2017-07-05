@@ -119,14 +119,19 @@ public:
 
     BMA280(I2C * i2c, I2CAddress address = I2CAddress::Address1, int hz = 400000);
 
-    bool initialize();
+    bool initialize(Range range = Range::Range_2g);
     void set_power_mode(PowerMode mode);
+    void set_range(Range range);
+    void enable_slow_offset_compensation(bool x_axis, bool y_axis, bool z_axis);
     // TODO configure power mode, sleep duration etc
     // TODO configure bandwidth range
     // TODO bool update() when data are ready ?
-
+    // TODO configure interrupt
 
     void read_accel(bma280_accel_t* accel);
+    void read_X_accel(double* accel_x);
+    void read_Y_accel(double* accel_y);
+    void read_Z_accel(double* accel_z);
     void read_temperature(float* temperature);
 
     char chip_id() { return _chipId; }
@@ -135,6 +140,7 @@ private:
 
     int i2c_set_register(RegisterAddress registerAddress, char value);
     int i2c_read_register(RegisterAddress registerAddress, char *value);
+    int i2c_read_two_bytes_register(RegisterAddress registerAddress, int16_t *value);
     int i2c_read_vector(RegisterAddress registerAddress, int16_t value[3]);
 
     I2C* _i2c;
