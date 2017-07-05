@@ -170,7 +170,9 @@ void BMA280::set_power_mode(PowerMode mode)
 void BMA280::set_range(Range range)
 {
 	char data = static_cast<char>(range);
-	i2c_set_register(RegisterAddress::RangeSelect, data);
+	if((i2c_set_register(RegisterAddress::RangeSelect, data)) == 0) {
+		_range = range;
+	}
 }
 
 void BMA280::set_bandwidth(Bandwidth width)
