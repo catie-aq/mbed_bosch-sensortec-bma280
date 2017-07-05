@@ -56,19 +56,19 @@ void BMA280::read_accel(bma280_accel_t* accel)
 		accel->z = static_cast<double>(acc[2] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
 		break;
 	case Range::Range_4g:
-		to_meters_per_seconds = 0.244*9.80665/1000;
+		to_meters_per_seconds = 0.488*9.80665/1000;
 		accel->x = static_cast<double>(acc[0] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
 		accel->y = static_cast<double>(acc[1] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
 		accel->z = static_cast<double>(acc[2] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
 		break;
 	case Range::Range_8g:
-		to_meters_per_seconds = 0.244*9.80665/1000;
+		to_meters_per_seconds = 0.977*9.80665/1000;
 		accel->x = static_cast<double>(acc[0] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
 		accel->y = static_cast<double>(acc[1] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
 		accel->z = static_cast<double>(acc[2] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
 		break;
 	case Range::Range_16g:
-		to_meters_per_seconds = 0.244*9.80665/1000;
+		to_meters_per_seconds = 1.953*9.80665/1000;
 		accel->x = static_cast<double>(acc[0] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
 		accel->y = static_cast<double>(acc[1] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
 		accel->z = static_cast<double>(acc[2] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
