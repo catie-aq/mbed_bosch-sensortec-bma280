@@ -39,6 +39,9 @@ bool BMA280::initialize()
 		}
 	}
 	_chipId = reg;
+
+	set_power_mode(PowerMode::PowerMode_NORMAL);
+
 	return true;
 }
 
@@ -51,34 +54,38 @@ void BMA280::read_accel(bma280_accel_t* accel)
 	switch(_range) {
 	case Range::Range_2g:
 		to_meters_per_seconds = 0.244*9.80665/1000;
-		accel->x = static_cast<double>(acc[0] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
-		accel->y = static_cast<double>(acc[1] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
-		accel->z = static_cast<double>(acc[2] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
 		break;
 	case Range::Range_4g:
 		to_meters_per_seconds = 0.488*9.80665/1000;
-		accel->x = static_cast<double>(acc[0] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
-		accel->y = static_cast<double>(acc[1] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
-		accel->z = static_cast<double>(acc[2] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
 		break;
 	case Range::Range_8g:
 		to_meters_per_seconds = 0.977*9.80665/1000;
-		accel->x = static_cast<double>(acc[0] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
-		accel->y = static_cast<double>(acc[1] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
-		accel->z = static_cast<double>(acc[2] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
 		break;
 	case Range::Range_16g:
 		to_meters_per_seconds = 1.953*9.80665/1000;
-		accel->x = static_cast<double>(acc[0] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
-		accel->y = static_cast<double>(acc[1] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
-		accel->z = static_cast<double>(acc[2] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
 	break;
+	default:
+		break;
 	}
+	accel->x = static_cast<double>(acc[0] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
+	accel->y = static_cast<double>(acc[1] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
+	accel->z = static_cast<double>(acc[2] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
+}
+
+void BMA280::read_temperature(float* temperature)
+{
+	char data;
+	i2c_read_register(RegisterAddress::Temp, &data);
+
+	*temperature = static_cast<float>(data*0.5 + 23.0);
 }
 
 void BMA280::set_power_mode(PowerMode mode)
 {
-	uint8_t data = (static_cast<char>(mode) << 5);
+	char data;
+	i2c_read_register(RegisterAddress::ModeCtrl, &data);
+
+	data |= (static_cast<char>(mode) << 5);
     i2c_set_register(RegisterAddress::ModeCtrl, data);
 }
 

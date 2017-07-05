@@ -127,7 +127,7 @@ public:
 
 
     void read_accel(bma280_accel_t* accel);
-    void read_temperature(int8_t* temperature);
+    void read_temperature(float* temperature);
 
     char chip_id() { return _chipId; }
 
