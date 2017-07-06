@@ -130,7 +130,7 @@ public:
     };
 
     enum class Bandwidth: char {
-        Bandwidth_7_81_Hz 	   = (0x08),
+        Bandwidth_7_81_Hz      = (0x08),
         Bandwidth_15_63_Hz     = (0x09),
         Bandwidth_31_25_Hz     = (0x0A),
         Bandwidth_62_25_Hz     = (0x0B),
