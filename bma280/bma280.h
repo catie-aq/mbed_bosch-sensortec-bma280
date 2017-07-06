@@ -140,13 +140,18 @@ public:
         Bandwidth_1000_Hz      = (0x0F)
     };
 
+    enum class OffsetTarget: char {
+        Target_0g           = (0x00),
+        Target_1g           = (0x01),
+        Target_Minus_1g     = (0x02)
+    };
+
     BMA280(I2C * i2c, I2CAddress address = I2CAddress::Address1, int hz = 400000);
 
     bool initialize(Range range = Range::Range_2g, Bandwidth width = Bandwidth::Bandwidth_1000_Hz);
     void set_power_mode(PowerMode mode);
     void set_range(Range range);
     void set_bandwidth(Bandwidth width);
-    // TODO add a do_a_fast_offset_configuration function
     // TODO configure sleep duration for low power modes
     // TODO configure interrupt
 
@@ -159,6 +164,9 @@ public:
     void read_offsets(bma280_offset_t* offsets);
     void set_offsets(bma280_offset_t* offsets);
     void enable_slow_offset_compensation(bool x_axis, bool y_axis, bool z_axis);
+    void fast_offsets_calibration_X(OffsetTarget target);
+    void fast_offsets_calibration_Y(OffsetTarget target);
+    void fast_offsets_calibration_Z(OffsetTarget target);
 
     char chip_id() { return _chipId; }
 

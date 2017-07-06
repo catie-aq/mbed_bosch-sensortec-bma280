@@ -220,6 +220,62 @@ void BMA280::enable_slow_offset_compensation(bool x_axis, bool y_axis, bool z_ax
     char data = ((z_axis & 0x01) << 2) | ((y_axis & 0x01) << 1) | (x_axis & 0x01);
     i2c_set_register(RegisterAddress::OffsetCtrl, data);
 }
+
+void BMA280::fast_offsets_calibration_X(OffsetTarget target)
+{
+    bool calibration_done = false;
+    Range old_range = _range;
+    set_range(Range::Range_2g); // Sensor need to be in 2g range to perform fast calibration
+
+    i2c_set_register(RegisterAddress::OffsetCtrl, 0x01); // Perform fast calibration on X axis
+
+    char data;
+    while (calibration_done != true) {
+        i2c_read_register(RegisterAddress::OffsetCtrl, &data);
+        if ((data & 0x10) == 0x10) {
+            calibration_done = true;
+        }
+    }
+    set_range(old_range);
+}
+
+void BMA280::fast_offsets_calibration_Y(OffsetTarget target)
+{
+    bool calibration_done = false;
+    Range old_range = _range;
+    set_range(Range::Range_2g); // Sensor need to be in 2g range to perform fast calibration
+
+    i2c_set_register(RegisterAddress::OffsetCtrl, 0x02); // Perform fast calibration on Y axis
+
+    char data;
+    while (calibration_done != true) {
+        i2c_read_register(RegisterAddress::OffsetCtrl, &data);
+        if ((data & 0x10) == 0x10) {
+            calibration_done = true;
+        }
+    }
+    set_range(old_range);
+}
+
+void BMA280::fast_offsets_calibration_Z(OffsetTarget target)
+{
+    bool calibration_done = false;
+    Range old_range = _range;
+    set_range(Range::Range_2g); // Sensor need to be in 2g range to perform fast calibration
+
+    i2c_set_register(RegisterAddress::OffsetCtrl, 0x03); // Perform fast calibration on Z axis
+
+    char data;
+    while (calibration_done != true) {
+        i2c_read_register(RegisterAddress::OffsetCtrl, &data);
+        if ((data & 0x10) == 0x10) {
+            calibration_done = true;
+        }
+    }
+    set_range(old_range);
+}
+
+
 void BMA280::reset()
 {
     i2c_set_register(RegisterAddress::Rst, 0xB6);
