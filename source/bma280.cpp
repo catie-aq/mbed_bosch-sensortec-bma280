@@ -157,6 +157,40 @@ void BMA280::read_temperature(float* temperature)
 	*temperature = static_cast<float>(data*0.5 + 23.0);
 }
 
+/** read the 3 axis offsets. 1 LSB = 1/128 m/s²
+ *
+ * @param offsets pointer to the offset structure to store the read values
+ *
+ */
+void BMA280::read_offsets(bma280_offset_t* offsets)
+{
+	char data[3];
+	i2c_read_register(RegisterAddress::Offset_X_Axis, data);
+	i2c_read_register(RegisterAddress::Offset_Y_Axis, data+1);
+	i2c_read_register(RegisterAddress::Offset_Z_Axis, data+2);
+
+	offsets->x = data[0];
+	offsets->y = data[1];
+	offsets->z = data[2];
+}
+
+/** write the 3 axis offsets. 1 LSB = 1/128 m/s²
+ *
+ * @param offsets pointer to the offset structure to write
+ *
+ */
+void BMA280::set_offsets(bma280_offset_t* offsets)
+{
+	char data[3];
+	data[0] = offsets->x;
+	data[1] = offsets->y;
+	data[2] = offsets->z;
+
+	i2c_set_register(RegisterAddress::Offset_X_Axis, data[0]);
+	i2c_set_register(RegisterAddress::Offset_Y_Axis, data[1]);
+	i2c_set_register(RegisterAddress::Offset_Z_Axis, data[2]);
+}
+
 void BMA280::set_power_mode(PowerMode mode)
 {
 	char data;

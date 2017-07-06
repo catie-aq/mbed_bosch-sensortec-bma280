@@ -21,13 +21,25 @@
 
 namespace sixtron {
 
-/* accel values in m/s^2 */
+/*!
+ * @brief Accelerometer values (X, Y, Z) in m/s²
+ */
 typedef struct
 {
     double x;
     double y;
     double z;
 } bma280_accel_t;
+
+/*!
+ * @brief Accelerometer 3 axes (X, Y, Z) offset data
+ */
+typedef struct {
+    int8_t x;
+    int8_t y;
+    int8_t z;
+} bma280_offset_t;
+
 
 class BMA280
 {
@@ -134,7 +146,6 @@ public:
     void set_power_mode(PowerMode mode);
     void set_range(Range range);
     void set_bandwidth(Bandwidth width);
-    void enable_slow_offset_compensation(bool x_axis, bool y_axis, bool z_axis);
     // TODO add a do_a_fast_offset_configuration function
     // TODO configure sleep duration for low power modes
     // TODO configure interrupt
@@ -144,6 +155,10 @@ public:
     void read_Y_accel(double* accel_y);
     void read_Z_accel(double* accel_z);
     void read_temperature(float* temperature);
+
+    void read_offsets(bma280_offset_t* offsets);
+    void set_offsets(bma280_offset_t* offsets);
+    void enable_slow_offset_compensation(bool x_axis, bool y_axis, bool z_axis);
 
     char chip_id() { return _chipId; }
 
