@@ -1,3 +1,3 @@
-# LibTemplate README
+# BMA280 driver
 
-Describe `LibTemplate` library here
+An mbed C++ driver for the Bosch BMA280 accelerometer
