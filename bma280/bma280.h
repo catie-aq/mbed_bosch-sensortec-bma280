@@ -160,29 +160,27 @@ public:
         _1000_MS            = (0x0F)
     };
 
-    BMA280(I2C * i2c, I2CAddress address = I2CAddress::Address1, int hz = 400000);
+    BMA280(I2C * i2c, I2CAddress i2c_address = I2CAddress::Address1, int i2c_frequency = 400000);
 
-    bool initialize(Range range = Range::Range_2g, Bandwidth width = Bandwidth::Bandwidth_1000_Hz);
+    bool initialize(Range range = Range::Range_2g, Bandwidth bandwidth = Bandwidth::Bandwidth_1000_Hz);
     void set_power_mode(PowerMode mode);
     void set_range(Range range);
-    void set_bandwidth(Bandwidth width);
-    // TODO configure sleep duration for low power modes
-    // TODO configure interrupt
+    void set_bandwidth(Bandwidth bandwidth);
 
-    void read_accel(bma280_accel_t* accel);
-    void read_X_accel(double* accel_x);
-    void read_Y_accel(double* accel_y);
-    void read_Z_accel(double* accel_z);
-    void read_temperature(float* temperature);
+    bma280_accel_t acceleration();
+    double acceleration_x();
+    double acceleration_y();
+    double acceleration_z();
+    double temperature();
 
-    void read_offsets(bma280_offset_t* offsets);
+    bma280_offset_t offsets();
     void set_offsets(bma280_offset_t* offsets);
     void enable_slow_offset_compensation(bool x_axis, bool y_axis, bool z_axis);
-    void fast_offsets_calibration_X(OffsetTarget target);
-    void fast_offsets_calibration_Y(OffsetTarget target);
-    void fast_offsets_calibration_Z(OffsetTarget target);
+    bool set_fast_offsets_calibration_x(OffsetTarget target);
+    bool set_fast_offsets_calibration_y(OffsetTarget target);
+    bool set_fast_offsets_calibration_z(OffsetTarget target);
 
-    char chip_id() { return _chipId; }
+    char chip_id();
 
     void reset();
     void set_sleep_duration(SleepDuration sleep_duration);
