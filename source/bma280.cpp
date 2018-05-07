@@ -23,8 +23,8 @@ namespace sixtron {
 #define BMA280_SWITCHED_TIME              5 /*!< wait time after a reset or changing power mode (in ms) */
 #define BMA280_CALIBRATION_TIMEOUT      500 /*!< timeout of calibration (in ms) */
 
-BMA280::BMA280(I2C * i2c, I2CAddress address, int hz):
-        _i2cAddress(address), _range(Range::Range_2g)
+BMA280::BMA280(I2C *i2c, I2CAddress address, int hz):
+    _i2cAddress(address), _range(Range::Range_2g)
 {
     _i2c = i2c;
     _i2c->frequency(hz);
@@ -51,33 +51,33 @@ bool BMA280::initialize(Range range, Bandwidth bandwidth)
     return true;
 }
 
-bma280_accel_t BMA280::acceleration()
+bma280_acceleration_t BMA280::acceleration()
 {
     static int16_t acc[3];
     double to_meters_per_seconds = 0;
-    bma280_accel_t acceleration_values;
+    bma280_acceleration_t acceleration_values;
 
     i2c_read_vector(RegisterAddress::X_Axis_Lsb, acc);
 
-    switch(_range) {
+    switch (_range) {
         case Range::Range_2g:
-            to_meters_per_seconds = 0.244*9.80665/1000;
+            to_meters_per_seconds = 0.244 * 9.80665 / 1000;
             break;
         case Range::Range_4g:
-            to_meters_per_seconds = 0.488*9.80665/1000;
+            to_meters_per_seconds = 0.488 * 9.80665 / 1000;
             break;
         case Range::Range_8g:
-            to_meters_per_seconds = 0.977*9.80665/1000;
+            to_meters_per_seconds = 0.977 * 9.80665 / 1000;
             break;
         case Range::Range_16g:
-            to_meters_per_seconds = 1.953*9.80665/1000;
-        break;
+            to_meters_per_seconds = 1.953 * 9.80665 / 1000;
+            break;
         default:
             break;
     }
-    acceleration_values.x = static_cast<double>(acc[0] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
-    acceleration_values.y = static_cast<double>(acc[1] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
-    acceleration_values.z = static_cast<double>(acc[2] >> 2)*to_meters_per_seconds; //The 2 first bits are not data
+    acceleration_values.x = static_cast<double>(acc[0] >> 2) * to_meters_per_seconds; //The 2 first bits are not data
+    acceleration_values.y = static_cast<double>(acc[1] >> 2) * to_meters_per_seconds; //The 2 first bits are not data
+    acceleration_values.z = static_cast<double>(acc[2] >> 2) * to_meters_per_seconds; //The 2 first bits are not data
 
     return acceleration_values;
 }
@@ -90,23 +90,23 @@ double BMA280::acceleration_x()
 
     i2c_read_two_bytes_register(RegisterAddress::X_Axis_Lsb, &acc);
 
-    switch(_range) {
+    switch (_range) {
         case Range::Range_2g:
-            to_meters_per_seconds = 0.244*9.80665/1000;
+            to_meters_per_seconds = 0.244 * 9.80665 / 1000;
             break;
         case Range::Range_4g:
-            to_meters_per_seconds = 0.488*9.80665/1000;
+            to_meters_per_seconds = 0.488 * 9.80665 / 1000;
             break;
         case Range::Range_8g:
-            to_meters_per_seconds = 0.977*9.80665/1000;
+            to_meters_per_seconds = 0.977 * 9.80665 / 1000;
             break;
         case Range::Range_16g:
-            to_meters_per_seconds = 1.953*9.80665/1000;
-        break;
+            to_meters_per_seconds = 1.953 * 9.80665 / 1000;
+            break;
         default:
             break;
     }
-    acceleration_x_value = static_cast<double>(acc >> 2)*to_meters_per_seconds; //The 2 first bits are not data
+    acceleration_x_value = static_cast<double>(acc >> 2) * to_meters_per_seconds; //The 2 first bits are not data
 
     return acceleration_x_value;
 }
@@ -119,23 +119,23 @@ double BMA280::acceleration_y()
 
     i2c_read_two_bytes_register(RegisterAddress::Y_Axis_Lsb, &acc);
 
-    switch(_range) {
+    switch (_range) {
         case Range::Range_2g:
-            to_meters_per_seconds = 0.244*9.80665/1000;
+            to_meters_per_seconds = 0.244 * 9.80665 / 1000;
             break;
         case Range::Range_4g:
-            to_meters_per_seconds = 0.488*9.80665/1000;
+            to_meters_per_seconds = 0.488 * 9.80665 / 1000;
             break;
         case Range::Range_8g:
-            to_meters_per_seconds = 0.977*9.80665/1000;
+            to_meters_per_seconds = 0.977 * 9.80665 / 1000;
             break;
         case Range::Range_16g:
-            to_meters_per_seconds = 1.953*9.80665/1000;
-        break;
+            to_meters_per_seconds = 1.953 * 9.80665 / 1000;
+            break;
         default:
             break;
     }
-    acceleration_y_value = static_cast<double>(acc >> 2)*to_meters_per_seconds; //The 2 first bits are not data
+    acceleration_y_value = static_cast<double>(acc >> 2) * to_meters_per_seconds; //The 2 first bits are not data
 
     return acceleration_y_value;
 }
@@ -148,26 +148,27 @@ double BMA280::acceleration_z()
 
     i2c_read_two_bytes_register(RegisterAddress::Z_Axis_Lsb, &acc);
 
-    switch(_range) {
+    switch (_range) {
         case Range::Range_2g:
-            to_meters_per_seconds = 0.244*9.80665/1000;
+            to_meters_per_seconds = 0.244 * 9.80665 / 1000;
             break;
         case Range::Range_4g:
-            to_meters_per_seconds = 0.488*9.80665/1000;
+            to_meters_per_seconds = 0.488 * 9.80665 / 1000;
             break;
         case Range::Range_8g:
-            to_meters_per_seconds = 0.977*9.80665/1000;
+            to_meters_per_seconds = 0.977 * 9.80665 / 1000;
             break;
         case Range::Range_16g:
-            to_meters_per_seconds = 1.953*9.80665/1000;
-        break;
+            to_meters_per_seconds = 1.953 * 9.80665 / 1000;
+            break;
         default:
             break;
     }
-    acceleration_z_value = static_cast<double>(acc >> 2)*to_meters_per_seconds; //The 2 first bits are not data
+    acceleration_z_value = static_cast<double>(acc >> 2) * to_meters_per_seconds; //The 2 first bits are not data
 
     return acceleration_z_value;
 }
+
 double BMA280::temperature()
 {
     char data;
@@ -175,25 +176,20 @@ double BMA280::temperature()
 
     i2c_read_register(RegisterAddress::Temp, &data);
 
-    temperature_value = static_cast<double>(data*0.5 + 23.0);
+    temperature_value = static_cast<double>(data * 0.5 + 23.0);
 
     return temperature_value;
 
 }
 
-/** read the 3 axis offsets. 1 LSB = 1/128 m/s²
- *
- * @param offsets pointer to the offset structure to store the read values
- *
- */
 bma280_offset_t BMA280::offsets()
 {
     char data[3];
     bma280_offset_t offset_values;
 
     i2c_read_register(RegisterAddress::Offset_X_Axis, data);
-    i2c_read_register(RegisterAddress::Offset_Y_Axis, data+1);
-    i2c_read_register(RegisterAddress::Offset_Z_Axis, data+2);
+    i2c_read_register(RegisterAddress::Offset_Y_Axis, data + 1);
+    i2c_read_register(RegisterAddress::Offset_Z_Axis, data + 2);
 
     offset_values.x = data[0];
     offset_values.y = data[1];
@@ -202,12 +198,7 @@ bma280_offset_t BMA280::offsets()
     return offset_values;
 }
 
-/** write the 3 axis offsets. 1 LSB = 1/128 m/s²
- *
- * @param offsets pointer to the offset structure to write
- *
- */
-void BMA280::set_offsets(bma280_offset_t* offsets)
+void BMA280::set_offsets(bma280_offset_t *offsets)
 {
     char data[3];
     data[0] = offsets->x;
@@ -232,7 +223,7 @@ void BMA280::set_power_mode(PowerMode mode)
 void BMA280::set_range(Range range)
 {
     char data = static_cast<char>(range);
-    if((i2c_set_register(RegisterAddress::RangeSelect, data)) == 0) {
+    if ((i2c_set_register(RegisterAddress::RangeSelect, data)) == 0) {
         _range = range;
     }
 }
@@ -249,7 +240,7 @@ void BMA280::enable_slow_offset_compensation(bool x_axis, bool y_axis, bool z_ax
     i2c_set_register(RegisterAddress::OffsetCtrl, data);
 }
 
-bool BMA280::set_fast_offsets_calibration_x(OffsetTarget target)
+bool BMA280::set_fast_offsets_calibration_x()
 {
     bool calibration_done = false;
     Range old_range = _range;
@@ -272,7 +263,7 @@ bool BMA280::set_fast_offsets_calibration_x(OffsetTarget target)
     return calibration_done;
 }
 
-bool BMA280::set_fast_offsets_calibration_y(OffsetTarget target)
+bool BMA280::set_fast_offsets_calibration_y()
 {
     bool calibration_done = false;
     Range old_range = _range;
@@ -295,7 +286,7 @@ bool BMA280::set_fast_offsets_calibration_y(OffsetTarget target)
     return calibration_done;
 }
 
-bool BMA280::set_fast_offsets_calibration_z(OffsetTarget target)
+bool BMA280::set_fast_offsets_calibration_z()
 {
     bool calibration_done = false;
     Range old_range = _range;
@@ -343,15 +334,6 @@ void BMA280::set_sleep_duration(SleepDuration sleep_duration)
     i2c_set_register(RegisterAddress::ModeCtrl, register_value);
 }
 
-/** Set register value
- *
- * @param registerAddress register address
- * @param value value to write
- *
- * @returns
- *      O on success,
- *      non-0 on failure
- */
 int BMA280::i2c_set_register(RegisterAddress registerAddress, char value)
 {
     char data[2];
@@ -363,15 +345,6 @@ int BMA280::i2c_set_register(RegisterAddress registerAddress, char value)
     return 0;
 }
 
-/** Get register value
- *
- * @param registerAddress register address
- * @param value pointer to store read value to
- *
- * @returns
- *      O on success,
- *      non-0 on failure
- */
 int BMA280::i2c_read_register(RegisterAddress registerAddress, char *value)
 {
     char data = static_cast<char>(registerAddress);
@@ -384,15 +357,6 @@ int BMA280::i2c_read_register(RegisterAddress registerAddress, char *value)
     return 0;
 }
 
-/** Get multi-byte register value (two-bytes)
- *
- * @param registerAddress register address of LSB
- * @param value pointer to store read value to
- *
- * @returns
- *      O on success,
- *      non-0 on failure
- */
 int BMA280::i2c_read_two_bytes_register(RegisterAddress registerAddress, int16_t *value)
 {
     static char data[2];
@@ -408,15 +372,6 @@ int BMA280::i2c_read_two_bytes_register(RegisterAddress registerAddress, int16_t
     return 0;
 }
 
-/** Get multi-byte register value (3*2-bytes) that are stored in a 3 dimensions vector
- *
- * @param registerAddress register address of LSB
- * @param value pointer to store read value to
- *
- * @returns
- *      O on success,
- *      non-0 on failure
- */
 int BMA280::i2c_read_vector(RegisterAddress registerAddress, int16_t value[3])
 {
     static char data[6];
