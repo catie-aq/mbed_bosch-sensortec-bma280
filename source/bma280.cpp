@@ -33,6 +33,7 @@ BMA280::BMA280(I2C *i2c, I2CAddress address, int hz):
 bool BMA280::initialize(Range range, Bandwidth bandwidth)
 {
     char reg = 0;
+
     reset();
     i2c_read_register(RegisterAddress::ChipId, &reg);
     if (reg != BMA280_CHIP_ID) {
@@ -43,7 +44,6 @@ bool BMA280::initialize(Range range, Bandwidth bandwidth)
         }
     }
     _chipId = reg;
-
     set_power_mode(PowerMode::PowerMode_NORMAL);
     set_range(range);
     set_bandwidth(bandwidth);
@@ -308,7 +308,6 @@ bool BMA280::set_fast_offsets_calibration_z()
 
     return calibration_done;
 }
-
 
 void BMA280::reset()
 {
