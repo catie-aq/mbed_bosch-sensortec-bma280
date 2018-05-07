@@ -19,6 +19,8 @@
 
 namespace sixtron {
 
+#define BMA280_RESET_TIME       5 /*!< wait time after a reset (in ms) */
+
 BMA280::BMA280(I2C * i2c, I2CAddress address, int hz):
         _i2cAddress(address), _range(Range::Range_2g)
 {
@@ -29,7 +31,6 @@ BMA280::BMA280(I2C * i2c, I2CAddress address, int hz):
 bool BMA280::initialize(Range range, Bandwidth width)
 {
     char reg = 0;
-    printf("Initializing BMA280 ... \n");
     reset();
     i2c_read_register(RegisterAddress::ChipId, &reg);
     if (reg != 0XFB) {
@@ -279,7 +280,20 @@ void BMA280::fast_offsets_calibration_Z(OffsetTarget target)
 void BMA280::reset()
 {
     i2c_set_register(RegisterAddress::Rst, 0xB6);
-    wait_ms(5);
+    wait_ms(BMA280_RESET_TIME);
+}
+
+void BMA280::set_sleep_duration(SleepDuration sleep_duration)
+{
+    char register_value = 0x00;
+
+    // read current value register
+    i2c_read_register(RegisterAddress::ModeCtrl, &register_value);
+    // clear and set new value
+    register_value &= 0xE0;
+    register_value |= (static_cast<char>(sleep_duration) << 1);
+    // set new value
+    i2c_set_register(RegisterAddress::ModeCtrl, register_value);
 }
 
 /** Set register value

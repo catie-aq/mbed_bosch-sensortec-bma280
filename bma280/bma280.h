@@ -133,7 +133,7 @@ public:
         Bandwidth_7_81_Hz      = (0x08),
         Bandwidth_15_63_Hz     = (0x09),
         Bandwidth_31_25_Hz     = (0x0A),
-        Bandwidth_62_25_Hz     = (0x0B),
+        Bandwidth_62_50_Hz     = (0x0B),
         Bandwidth_125_Hz       = (0x0C),
         Bandwidth_250_Hz       = (0x0D),
         Bandwidth_500_Hz       = (0x0E),
@@ -144,6 +144,20 @@ public:
         Target_0g           = (0x00),
         Target_1g           = (0x01),
         Target_Minus_1g     = (0x02)
+    };
+
+    enum class SleepDuration : char {
+        _500_US             = (0x05),
+        _1_MS               = (0x06),
+        _2_MS               = (0x07),
+        _4_MS               = (0x08),
+        _6_MS               = (0x09),
+        _10_MS              = (0x0A),
+        _25_MS              = (0x0B),
+        _50_MS              = (0x0C),
+        _100_MS             = (0x0D),
+        _500_MS             = (0x0E),
+        _1000_MS            = (0x0F)
     };
 
     BMA280(I2C * i2c, I2CAddress address = I2CAddress::Address1, int hz = 400000);
@@ -171,6 +185,7 @@ public:
     char chip_id() { return _chipId; }
 
     void reset();
+    void set_sleep_duration(SleepDuration sleep_duration);
 
 private:
 
