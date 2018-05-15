@@ -167,7 +167,6 @@ public:
      * \param i2c pointer to mbed I2C object
      * \param i2c_address i2c address of the bma280
      * \param i2c_frequency frequency of the I2C interface
-     *
      */
     BMA280(I2C *i2c, I2CAddress i2c_address = I2CAddress::Address1, int i2c_frequency = 400000);
 
@@ -184,7 +183,6 @@ public:
     /*! Set the BMA280 power mode
      *
      * \param mode Power mode to be applied
-     *
      */
     void set_power_mode(PowerMode mode);
 
@@ -198,56 +196,48 @@ public:
     /*! Set BMA280  bandwidth configuration
      *
      * \param bandwidth Low-pass filter 7.81Hz/15.63Hz/31.25Hz/62.5Hz/125Hz/250Hz/500Hz/1000Hz
-     *
      */
     void set_bandwidth(Bandwidth bandwidth);
 
     /*! Get the acceleration values
      *
      * \return the acceleration values (X, Y and Z) structure in m/s²
-     *
      */
     bma280_acceleration_t acceleration();
 
     /*! Get the acceleration values
      *
      * \return the X acceleration values in m/s²
-     *
      */
     double acceleration_x();
 
     /*! Get the acceleration values
      *
      * \return the Y acceleration values in m/s²
-     *
      */
     double acceleration_y();
 
     /*! Get the acceleration values
      *
      * \return the Z acceleration values in m/s²
-     *
      */
     double acceleration_z();
 
     /*! Get the acceleration values
      *
      * \return the temperature value in °C
-     *
      */
     double temperature();
 
     /*! Get the 3 axis offsets. 1 LSB = 1/128 m/s²
      *
      * \return the offset structure data to store the read values
-     *
      */
     bma280_offset_t offsets();
 
     /*! Set the 3 axis offsets. 1 LSB = 1/128 m/s²
      *
      * \param offsets pointer to the offset structure to write
-     *
      */
     void set_offsets(bma280_offset_t *offsets);
 
@@ -257,28 +247,27 @@ public:
      * \param x_axis enable (true) / disable (false) the slow offset compensation for X axis
      * \param y_axis enable (true) / disable (false) the slow offset compensation for Y axis
      * \param z_axis enable (true) / disable (false) the slow offset compensation for Z axis
-     *
      */
     void enable_slow_offset_compensation(bool x_axis, bool y_axis, bool z_axis);
 
     /*!
      * \brief set fast offset calibration for X axis
      *
-     * return true on calibration done, false in failure
+     * \return true on calibration done, false in failure
      */
     bool set_fast_offsets_calibration_x();
 
     /*!
      * \brief set fast offset calibration for Y axis
      *
-     * return true on calibration done, false in failure
+     * \return true on calibration done, false in failure
      */
     bool set_fast_offsets_calibration_y();
 
     /*!
      * \brief set fast offset calibration for Z axis
      *
-     * return true on calibration done, false in failure
+     * \return true on calibration done, false in failure
      */
     bool set_fast_offsets_calibration_z();
 
@@ -286,7 +275,6 @@ public:
      * \brief Get the BMA280 chip ID
      *
      * \return BMA280 chip ID
-     *
      */
     char chip_id();
 
@@ -294,13 +282,10 @@ public:
      * \brief Set the sleep duration
      *
      * \param sleep_duration the sleep phase duration in LOW_POWER mode
-     *
      */
     void set_sleep_duration(SleepDuration sleep_duration);
 
-    /*!
-     * \brief BMA280 software reset
-     *
+    /*! BMA280 software reset
      */
     void reset();
 
