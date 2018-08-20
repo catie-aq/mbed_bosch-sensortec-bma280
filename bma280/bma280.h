@@ -170,13 +170,14 @@ public:
 
     char chip_id() { return _chipId; }
 
+    void reset();
+
 private:
 
     int i2c_set_register(RegisterAddress registerAddress, char value);
     int i2c_read_register(RegisterAddress registerAddress, char *value);
     int i2c_read_two_bytes_register(RegisterAddress registerAddress, int16_t *value);
     int i2c_read_vector(RegisterAddress registerAddress, int16_t value[3]);
-    void reset();
 
     I2C* _i2c;
     I2CAddress _i2cAddress;
