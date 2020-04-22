@@ -37,7 +37,7 @@ bool BMA280::initialize(Range range, Bandwidth bandwidth)
     reset();
     i2c_read_register(RegisterAddress::ChipId, &reg);
     if (reg != BMA280_CHIP_ID) {
-        wait_ms(20); //BMA280 may have not finishing to boot !
+        ThisThread::sleep_for(20); //BMA280 may have not finishing to boot !
         i2c_read_register(RegisterAddress::ChipId, &reg);
         if (reg != BMA280_CHIP_ID) {
             return false;
@@ -217,7 +217,7 @@ void BMA280::set_power_mode(PowerMode mode)
 
     data = (data & 0x1F) | (static_cast<char>(mode) << 5);
     i2c_set_register(RegisterAddress::ModeCtrl, data);
-    wait_ms(BMA280_SWITCHED_TIME);
+    ThisThread::sleep_for(BMA280_SWITCHED_TIME);
 }
 
 void BMA280::set_range(Range range)
@@ -255,7 +255,7 @@ bool BMA280::set_fast_offsets_calibration_x()
         if ((data & 0x10) == 0x10) {
             calibration_done = true;
         }
-        wait_ms(1);
+        ThisThread::sleep_for(1);
         timeout--;
     }
     set_range(old_range);
@@ -278,7 +278,7 @@ bool BMA280::set_fast_offsets_calibration_y()
         if ((data & 0x10) == 0x10) {
             calibration_done = true;
         }
-        wait_ms(1);
+        ThisThread::sleep_for(1);
         timeout--;
     }
     set_range(old_range);
@@ -301,7 +301,7 @@ bool BMA280::set_fast_offsets_calibration_z()
         if ((data & 0x10) == 0x10) {
             calibration_done = true;
         }
-        wait_ms(1);
+        ThisThread::sleep_for(1);
         timeout--;
     }
     set_range(old_range);
@@ -312,7 +312,7 @@ bool BMA280::set_fast_offsets_calibration_z()
 void BMA280::reset()
 {
     i2c_set_register(RegisterAddress::Rst, 0xB6);
-    wait_ms(BMA280_SWITCHED_TIME);
+    ThisThread::sleep_for(BMA280_SWITCHED_TIME);
 }
 
 char BMA280::chip_id()
