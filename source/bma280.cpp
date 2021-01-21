@@ -20,7 +20,7 @@
 namespace sixtron {
 
 #define BMA280_CHIP_ID                 0xFB /*!< BMA280 chip identification code */
-#define BMA280_SWITCHED_TIME            5ms /*!< wait time after a reset or changing power mode (in ms) */
+#define BMA280_SWITCHED_TIME            5ms /*!< wait time after a reset or changing power mode */
 #define BMA280_CALIBRATION_TIMEOUT      500 /*!< timeout of calibration (in ms) */
 
 BMA280::BMA280(I2C *i2c, I2CAddress address, int hz):
