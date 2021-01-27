@@ -20,7 +20,7 @@
 namespace sixtron {
 
 #define BMA280_CHIP_ID                 0xFB /*!< BMA280 chip identification code */
-#define BMA280_SWITCHED_TIME              5 /*!< wait time after a reset or changing power mode (in ms) */
+#define BMA280_SWITCHED_TIME            5ms /*!< wait time after a reset or changing power mode */
 #define BMA280_CALIBRATION_TIMEOUT      500 /*!< timeout of calibration (in ms) */
 
 BMA280::BMA280(I2C *i2c, I2CAddress address, int hz):
@@ -37,7 +37,7 @@ bool BMA280::initialize(Range range, Bandwidth bandwidth)
     reset();
     i2c_read_register(RegisterAddress::ChipId, &reg);
     if (reg != BMA280_CHIP_ID) {
-        ThisThread::sleep_for(20); //BMA280 may have not finishing to boot !
+        ThisThread::sleep_for(20ms); //BMA280 may have not finishing to boot !
         i2c_read_register(RegisterAddress::ChipId, &reg);
         if (reg != BMA280_CHIP_ID) {
             return false;
@@ -255,7 +255,7 @@ bool BMA280::set_fast_offsets_calibration_x()
         if ((data & 0x10) == 0x10) {
             calibration_done = true;
         }
-        ThisThread::sleep_for(1);
+        ThisThread::sleep_for(1ms);
         timeout--;
     }
     set_range(old_range);
@@ -278,7 +278,7 @@ bool BMA280::set_fast_offsets_calibration_y()
         if ((data & 0x10) == 0x10) {
             calibration_done = true;
         }
-        ThisThread::sleep_for(1);
+        ThisThread::sleep_for(1ms);
         timeout--;
     }
     set_range(old_range);
@@ -301,7 +301,7 @@ bool BMA280::set_fast_offsets_calibration_z()
         if ((data & 0x10) == 0x10) {
             calibration_done = true;
         }
-        ThisThread::sleep_for(1);
+        ThisThread::sleep_for(1ms);
         timeout--;
     }
     set_range(old_range);
