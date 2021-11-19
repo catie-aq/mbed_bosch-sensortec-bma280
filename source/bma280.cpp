@@ -176,7 +176,7 @@ double BMA280::temperature()
 
     i2c_read_register(RegisterAddress::Temp, &data);
 
-    temperature_value = static_cast<double>(data * 0.5 + 23.0);
+    temperature_value = static_cast<double>(int8_t(data) * 0.5 + 23.0);
 
     return temperature_value;
 
